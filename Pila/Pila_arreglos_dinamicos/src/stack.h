@@ -1,6 +1,7 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef int Data;
 

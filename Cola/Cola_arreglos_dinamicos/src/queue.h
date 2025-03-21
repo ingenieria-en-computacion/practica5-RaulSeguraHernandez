@@ -2,6 +2,7 @@
 #define __QUEUE_H__
 
 #include <stdbool.h>
+#include <stdio.h>
 typedef int Data;
 
 typedef struct {

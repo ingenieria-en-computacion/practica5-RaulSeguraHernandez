@@ -2,6 +2,7 @@
 #define __STACK_H__
 
 #include <stdbool.h>
+#include <stdlib.h>
 typedef int Data;
 #define TAM 100
 
@@ -13,7 +14,7 @@ typedef struct {
 Stack stack_create();
 void stack_push(Stack*, Data);
 Data stack_pop(Stack*);
-bool stack_is_empty(Stack* );
+int stack_is_empty(Stack* );
 void stack_empty(Stack*);
 void stack_print(Stack *);
 

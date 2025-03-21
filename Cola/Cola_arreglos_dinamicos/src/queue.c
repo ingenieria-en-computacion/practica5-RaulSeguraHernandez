@@ -9,7 +9,16 @@
  * @details Esta función inicializa una cola vacía. Asigna memoria dinàmica con malloc al arreglo data usando len
  */
 Queue queue_create(int len){
-
+    Queue q;
+    q.data = (Data*)malloc(sizeof(Data)*len);
+    if (q.data==NULL){
+        printf("No se pudo realizar la creación de la cola\n");
+        return q;
+    }
+    q.len=0;
+    q.head = -1;
+    q.tail = -1;
+    return q;
 }
 
 /**
@@ -20,7 +29,17 @@ Queue queue_create(int len){
  * @details Esta función añade el dato `d` al final de la cola.
  */
 void queue_enqueue(Queue* q, Data d){
-
+    if (q->len==(sizeof(q->data)/sizeof(Data))){
+        q->data = (Data*)realloc(q->data,sizeof(q->data)+sizeof(Data));
+        if (q->data==NULL){
+            printf("hubo un error al encolar \n");
+            return;
+        }
+    }
+    q->data[q->tail+1]=d;
+    q->tail++;
+    q->len++;
+    return;
 }
 
 /**
@@ -33,7 +52,20 @@ void queue_enqueue(Queue* q, Data d){
  *          Si la cola está vacía, no se realiza ninguna operación y se devuelve un valor de error.
  */
 Data queue_dequeue(Queue* q){
-
+    if((q==NULL) ||(queue_is_empty(q)) ){
+        printf("hubo un error");
+        return  -100;
+    }
+    int temp = q->data[q->head];
+    for(int i = 0; i < q->len-1; i++){
+        q->data[i]=q->data[i+1];
+    }
+    if(q->tail==0){
+        q->head=-1;
+    }
+    q->tail--;
+    q->len--;
+    return temp;
 }
 
 /**
@@ -45,7 +77,11 @@ Data queue_dequeue(Queue* q){
  *          como `queue_dequeue` en una cola vacía.
  */
 bool queue_is_empty(Queue* q){
-
+    if(q==NULL){
+        printf("Cola inválida\n");
+        return true;
+    }
+    return q->len==0;
 }
 
 /**
@@ -57,7 +93,11 @@ bool queue_is_empty(Queue* q){
  *          Si la cola está vacía, no se realiza ninguna operación y se devuelve un valor de error.
  */
 Data queue_front(Queue* q){
-
+    if((q==NULL) ||(queue_is_empty(q)) ){
+        printf("hubo un error");
+        return  -100;
+    }
+    return q->data[q->head];
 }
 
 /**
@@ -67,7 +107,14 @@ Data queue_front(Queue* q){
  * @details Esta función hace que los índices head y tail tomen el valor de -1
  */
 void queue_empty(Queue* q){
-
+    if (q==NULL){
+        printf("Cola inválida\n");
+        return;
+    }
+    while(q->len!=0){
+        queue_dequeue(q);
+    }
+    return;
 }
 
 /**
@@ -79,5 +126,10 @@ void queue_empty(Queue* q){
  *          de ser eliminada.
  */
 void queue_delete(Queue* q){
-
+    free(q->data);
+    q->data = NULL;
+    q->head=q->tail=-1;
+    q->len = 0;
+    q = NULL;
+    return;
 }

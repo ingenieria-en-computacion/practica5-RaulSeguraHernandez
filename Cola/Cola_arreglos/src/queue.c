@@ -1,5 +1,6 @@
 #include "queue.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * Crea una nueva cola vacía y la devuelve.
@@ -9,7 +10,11 @@
  * @details Esta función inicializa una cola vacía. 
  */
 Queue queue_create(){
-
+    Queue q;
+    q.len=0;
+    q.head = -1;
+    q.tail = -1;
+    return q;
 }
 
 /**
@@ -20,7 +25,21 @@ Queue queue_create(){
  * @details Esta función añade el dato `d` al final de la cola.
  */
 void queue_enqueue(Queue* q, Data d){
-
+    if(q==NULL){
+        printf("Cola inválida\n");
+    }
+    if(!(q->tail <TAM-1)){
+        printf("la cola está llena \n");
+        return;
+    }
+    
+    if (queue_is_empty(q)){
+        q->head=0;
+    }
+    q->tail++;
+    q->len++;
+    q->datos[q->tail] = d;
+    return;
 }
 
 /**
@@ -33,7 +52,17 @@ void queue_enqueue(Queue* q, Data d){
  *          Si la cola está vacía, no se realiza ninguna operación y se devuelve un valor de error.
  */
 Data queue_dequeue(Queue* q){
-
+    if((q==NULL) ||(queue_is_empty(q)) ){
+        printf("hubo un error");
+        return  -100;
+    }
+    int temp = q->datos[q->head];
+    for(int i = 0; i < q->len-1; i++){
+        q->datos[i]=q->datos[i+1];
+    }
+    q->tail--;
+    q->len--;
+    return temp;
 }
 
 /**
@@ -45,7 +74,7 @@ Data queue_dequeue(Queue* q){
  *          como `queue_dequeue` en una cola vacía.
  */
 bool queue_is_empty(Queue* q){
-
+    return (q->len ==0);
 }
 
 /**
@@ -57,7 +86,11 @@ bool queue_is_empty(Queue* q){
  *          Si la cola está vacía, no se realiza ninguna operación y se devuelve un valor de error.
  */
 Data queue_front(Queue* q){
-
+    if((q==NULL) ||(queue_is_empty(q)) ){
+        printf("hubo un error");
+        return  -100;
+    }
+    return q->datos[q->head];
 }
 
 /**
@@ -67,6 +100,9 @@ Data queue_front(Queue* q){
  * @details Esta función hace que los índices head y tail tomen el valor de -1
  */
 void queue_empty(Queue* q){
-
+    q->len=0;
+    q->head = -1;
+    q->tail = -1;
+    return;
 }
 

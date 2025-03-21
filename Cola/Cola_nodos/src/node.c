@@ -11,7 +11,14 @@
  *          proporcionado en el parámetro `d`, el siguiente .
  */
 Node *new_node(Data d){
-
+    Node* new = (Node*)malloc(sizeof(Node));
+    if (new==NULL){
+        printf("la creación del nodo ha fallado \n");
+        return NULL;
+    }
+    new->data=d;
+    new->next=NULL;
+    return new;
 }
 
 /**
@@ -24,7 +31,11 @@ Node *new_node(Data d){
  *          de ser eliminado. Está función solo libera nodos cuyo enlace al siguiente es nulo
  */
 void delete_node(Node* n){
-
+    if (n==NULL||n->next!=NULL){
+        return;
+    }
+    free(n);
+    n=NULL;
 }
 
 /**
@@ -36,5 +47,9 @@ void delete_node(Node* n){
  *          indicando que el nodo es inválido. La salida se dirige a la salida estándar (stdout).
  */
 void print_node(Node* n){
-
+    if (n = NULL){
+        printf("nodo inválido");
+        return;
+    }
+    printf("Dato: %d \t Siguiente %p\n",n->data, n->next );
 }

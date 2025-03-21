@@ -3,6 +3,7 @@
 #include "node.h"
 #include <stdbool.h>
 
+
 typedef struct {
     Node* head;
     Node *tail;
